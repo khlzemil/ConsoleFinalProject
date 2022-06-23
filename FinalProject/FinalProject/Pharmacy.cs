@@ -79,24 +79,41 @@ namespace FinalProject
 
             if (password.Length >= 5)
             {
-                bool flag = false;
-                bool symbolCheck = password.Any(p => !char.IsLetterOrDigit(p));
-                //Regex sampleRegex = new Regex(@"(?!^[0-9]*$)(?!^[a-zA-Z]*$)$");
-                //bool isStrongPassword = sampleRegex.IsMatch(password);
-                if (symbolCheck)
+                var hasNumber = new Regex(@"[0-9]+");
+                var hasUpperChar = new Regex(@"[A-Z]+");
+                var hasMiniMaxChars = new Regex(@".{8,15}");
+                var hasLowerChar = new Regex(@"[a-z]+");
+                var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+
+                if (!hasLowerChar.IsMatch(password))
                 {
-                    flag = true;
+                    Console.WriteLine("Password should contain At least one lower case letter");
+                   
+                }
+                else if (!hasUpperChar.IsMatch(password))
+                {
+                    Console.WriteLine("Password should contain At least one upper case letter");
+                    goto SETPASS;
+                }
+                else if (!hasMiniMaxChars.IsMatch(password))
+                {
+                    Console.WriteLine("Password should not be less than or greater than 12 characters");
+                    goto SETPASS;
+                }
+                else if (!hasNumber.IsMatch(password))
+                {
+                    Console.WriteLine("Password should contain At least one numeric value");
+                    goto SETPASS;
+                }
+
+                else if (!hasSymbols.IsMatch(password))
+                {
+                    Console.WriteLine("Password should contain At least one special case characters");
+                    goto SETPASS;
                 }
                 else
                 {
-                    flag = false;
-                }
-                
-
-                if( flag == false)
-                {
-                    Console.WriteLine("The password must contain at least 1 digit, a capital letter and a character: ");
-                    goto SETPASS;
+                    goto Add;
                 }
             }
             else
@@ -104,6 +121,7 @@ namespace FinalProject
                     Console.WriteLine("The minimum length of the password must be 5");
                     goto SETPASS;
               }
+            Add:
             employee.Password = password;
             Console.WriteLine("Is the employee an admin or a staff ?: ");
             EMPLOYEE:

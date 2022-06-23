@@ -132,7 +132,15 @@ namespace FinalProject
                 Console.WriteLine("Enter the employee's position correctly: ");
                 goto EMPLOYEE;
             }
-            employee.RoleType = roleOfEmp;
+            if (roleOfEmp.ToString().ToUpper() == "admin".ToUpper())
+            {
+                employee.RoleType = RoleType.ADMIN;
+            }
+            else if (roleOfEmp.ToString().ToUpper() == "staff".ToUpper())
+            {
+                employee.RoleType = RoleType.STAFF;
+            }
+            
             employees.Add(employee);
             Console.WriteLine($"You have added an employee {empName} to the portal.");
             
@@ -140,6 +148,7 @@ namespace FinalProject
 
         public void AddDrug()
         {
+            
             Drug drug = new Drug();
             Console.WriteLine("Input new drug's name: ");
             string drugName = Console.ReadLine();
@@ -160,8 +169,20 @@ namespace FinalProject
                     Console.WriteLine("You have already entered the drug under this name: ");
                     return;
                 }
+                if (typeOfDrug.ToString().ToUpper() == "syrop".ToUpper())
+                {
+                    elem.DrugType = DrugType.SYROP;
+                }
+                if (typeOfDrug.ToString().ToUpper() == "powder".ToUpper())
+                {
+                    elem.DrugType = DrugType.POWDER;
+                }
+                if (typeOfDrug.ToString().ToUpper() == "tablet".ToUpper())
+                {
+                    elem.DrugType = DrugType.TABLET;
+                }
             }
-            drug.DrugType = typeOfDrug;
+            
 
             Console.WriteLine("Input new drug's count ");
             COUNT:
@@ -584,13 +605,11 @@ namespace FinalProject
         }
         public void Sale()
         {
-            if (drugs.Count == 0)
-            {
-                Console.WriteLine(("There is currently no drug on sale"));
-                return;
-            }
-            else
-            {
+                if (drugs.Count == 0)
+                {
+                    Console.WriteLine(("There is currently no drug on sale"));
+                    return;
+                }
                 Console.WriteLine("Enter name of drug");
                 string drugName = Console.ReadLine();
                 Console.WriteLine("Enter type of drug: tablet, powder, syrop");
@@ -649,8 +668,9 @@ namespace FinalProject
                         }
                     }
                 }
-            }
+            
         }
+
 
              
         }

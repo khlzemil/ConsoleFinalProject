@@ -17,7 +17,7 @@ namespace FinalProject.Helper
             {
                 Console.ForegroundColor = color;
                 Console.Write(elem);
-                Thread.Sleep(50);
+                Thread.Sleep(10);
                 Console.ResetColor();
 
             }

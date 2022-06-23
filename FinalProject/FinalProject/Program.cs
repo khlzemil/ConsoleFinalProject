@@ -20,6 +20,7 @@ namespace FinalProject
             {
                 if(userName == elem.Username && passWord == elem.Password && elem.RoleType == RoleType.ADMIN)
                 {
+                    MAINMENU:
                     Console.WriteLine("Press 1 to go to the admin panel: ");
                     Console.WriteLine("Press 2 to sale: ");
                     Console.WriteLine("Press 3 to update your personal information: ");
@@ -35,6 +36,7 @@ namespace FinalProject
                                 Console.WriteLine("Press 4 to edit drug: ");
                                 Console.WriteLine("Press 5 to delete employee: ");
                                 Console.WriteLine("Press 6 to edit employee: ");
+                                Console.WriteLine("Press 7 to exit: ");
 
                                 string caseOneOptions = Console.ReadLine();
 
@@ -50,8 +52,27 @@ namespace FinalProject
 
                                         pharmacy.AddDrug();
                                         break;
+                                    case "3":
+                                        pharmacy.DeleteDrug();
+                                        break;
+                                    case "4":
+                                        pharmacy.EditDrug();
+                                        break;
+
+                                    case "5":
+                                        pharmacy.DeleteDrug();
+                                        break;
+                                    case "6":
+                                        pharmacy.EditEmployee();
+                                        break;
+                                    case "7":
+                                        goto MAINMENU;
                                 }
 
+                                break;
+
+                            case "2":
+                                pharmacy.Sale();
                                 break;
                         }
 

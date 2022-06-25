@@ -12,6 +12,7 @@ namespace FinalProject.Helper
 
         public static void Print(object obj, ConsoleColor color = ConsoleColor.Green)
         {
+
             string text = obj as string;
             foreach (var elem in text)
             {

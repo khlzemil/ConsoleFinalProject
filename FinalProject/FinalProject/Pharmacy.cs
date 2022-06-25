@@ -13,14 +13,14 @@ namespace FinalProject
         private int _id { get; set; }
         public string Name { get; set; }
         public double Budget { get; set; }
-        public int Location;
+        public string Location;
         public List<Employee> employees = new List<Employee>();
         public List<Drug> drugs = new List<Drug>();
 
         public Pharmacy(string name)
         {
             Name = name;
-            Employee defaultEmp = new Employee { Username = "admin", Password = "admin123", RoleType = RoleType.ADMIN };
+            Employee defaultEmp = new Employee {Name = "unknow",  Username = "admin", Password = "admin123", RoleType = RoleType.ADMIN };
             employees.Add(defaultEmp);
 
         }
@@ -55,11 +55,17 @@ namespace FinalProject
                 Helper.ForEdit.Print("Enter the salary correctly!!!: ",ConsoleColor.DarkRed);
                 goto SALARY;
             }
+            if(salary < 0)
+            {
+                Helper.ForEdit.Print("Negative numbers will not be included");
+                goto SALARY;
+            }
             if(salary < 400)
             {
                 Helper.ForEdit.Print("The minimum salary should be 400 manat.", ConsoleColor.DarkRed);
                 goto SALARY;
             }
+            
             employee.Salary = salary;
             Helper.ForEdit.Print("Set a username and password for the employee to access the control panel: ");
             Helper.ForEdit.Print("Set a username: ");
@@ -144,7 +150,7 @@ namespace FinalProject
 
         public void AddDrug()
         {
-            
+            AddDrug:
             Drug drug = new Drug();
             Helper.ForEdit.Print("Input new drug's name: ");
             string drugName = Console.ReadLine();
@@ -152,32 +158,38 @@ namespace FinalProject
             Helper.ForEdit.Print("Enter type of drug ?: ");
             DRUG:
             string typeOfDrugStr = Console.ReadLine();
-            bool isEnum = Enum.TryParse(typeOfDrugStr, out DrugType typeOfDrug);
-            if (!isEnum)
-            {
-                Helper.ForEdit.Print("Enter the drug's type correctly: ", ConsoleColor.DarkRed);
-                goto DRUG;
-            }
-            foreach(var elem in drugs)
-            {
-                if(elem.DrugType.ToString().ToLower() == typeOfDrug.ToString().ToLower())
-                {
-                    Helper.ForEdit.Print("You have already entered the drug under this name: ", ConsoleColor.DarkRed);
-                    return;
-                }
+                            
                 if (typeOfDrugStr.ToUpper() == "syrop".ToUpper())
                 {
-                    elem.DrugType = DrugType.SYROP;
+                    drug.DrugType = DrugType.SYROP;
+                    goto Check;
                 }
                 if (typeOfDrugStr.ToUpper() == "powder".ToUpper())
                 {
-                    elem.DrugType = DrugType.POWDER;
+                    drug.DrugType = DrugType.POWDER;
+                    goto Check;
                 }
                 if (typeOfDrugStr.ToUpper() == "tablet".ToUpper())
                 {
-                    elem.DrugType = DrugType.TABLET;
+                    drug.DrugType = DrugType.TABLET;
+                    goto Check;
                 }
-            }
+                else
+                {
+                    Helper.ForEdit.Print("Invalid Input. Please try again!", ConsoleColor.DarkRed);
+                    goto DRUG;
+                }
+                Check:
+                foreach (var product in drugs)
+                {
+                    if (product.Name == drugName && product.DrugType.ToString().ToUpper() == typeOfDrugStr.ToUpper())
+                    {
+                        Helper.ForEdit.Print("You have already entered the drug under this name: ", ConsoleColor.DarkRed);
+
+                        return;
+                    }
+                }
+            
             
 
             Helper.ForEdit.Print("Input new drug's count ");
@@ -189,6 +201,12 @@ namespace FinalProject
                 Helper.ForEdit.Print("Enter the count correctly!!!: ", ConsoleColor.DarkRed);
                 goto COUNT;
             }
+            if (count < 0)
+            {
+                Helper.ForEdit.Print("Negative numbers will not be included", ConsoleColor.DarkRed);
+                goto COUNT;
+            }
+
             drug.Count = count;
             Helper.ForEdit.Print("Input new drug's purchase price ");
             PURCHASE:
@@ -199,14 +217,24 @@ namespace FinalProject
                 Helper.ForEdit.Print("Enter the purchase price correctly!!!: ", ConsoleColor.DarkRed);
                 goto PURCHASE;
             }
+            if (purchasePrice < 0)
+            {
+                Helper.ForEdit.Print("Negative numbers will not be included", ConsoleColor.DarkRed);
+                goto PURCHASE;
+            }
             drug.PurchasePrice = purchasePrice;
             Helper.ForEdit.Print("Input new drug's sale price ");
-        SALE:
+            SALE:
             string saletStr = Console.ReadLine();
             isDouble = double.TryParse(countStr, out double salePrice);
             if (!isDouble)
             {
                 Helper.ForEdit.Print("Enter the sale price correctly!!!: ", ConsoleColor.DarkRed);
+                goto SALE;
+            }
+            if (salePrice < 0)
+            {
+                Helper.ForEdit.Print("Negative numbers will not be included", ConsoleColor.DarkRed);
                 goto SALE;
             }
             drug.SalePrice = salePrice;
@@ -327,7 +355,7 @@ namespace FinalProject
                         {
                             elem.DrugType = typeOfDrug;
                         }
-                        else if (typeOfDrugStr.ToUpper() == "tablet".ToUpper())
+                        else if (typeOfDrugStr.ToUpper() == "syrop".ToUpper())
                         {
                             elem.DrugType = typeOfDrug;
                         }
@@ -347,6 +375,11 @@ namespace FinalProject
                         Helper.ForEdit.Print("Enter the count correctly!!!: ", ConsoleColor.DarkRed);
                         goto COUNT;
                     }
+                    if (count < 0)
+                    {
+                        Helper.ForEdit.Print("Negative numbers will not be included");
+                        goto COUNT;
+                    }
                     item.Count = count;
                     Helper.ForEdit.Print("Input new drug's purchase price ");
                     PURCHASE:
@@ -357,8 +390,12 @@ namespace FinalProject
                         Helper.ForEdit.Print("Enter the purchase price correctly!!!: ", ConsoleColor.DarkRed);
                         goto PURCHASE;
                     }
+                    if (purchasePrice < 0)
+                    {
+                        Helper.ForEdit.Print("Negative numbers will not be included");
+                        goto PURCHASE;
+                    }
 
-                    
                     item.PurchasePrice = purchasePrice;
                     Helper.ForEdit.Print("Input new drug's sale price ");
                     SALE:
@@ -367,6 +404,11 @@ namespace FinalProject
                     if (!isDouble)
                     {
                         Helper.ForEdit.Print("Enter the sale price correctly!!!: ", ConsoleColor.DarkRed);
+                        goto SALE;
+                    }
+                    if (salePrice < 0)
+                    {
+                        Helper.ForEdit.Print("Negative numbers will not be included");
                         goto SALE;
                     }
                     if (Budget < (salePrice * count))
@@ -398,7 +440,7 @@ namespace FinalProject
             }
             Helper.ForEdit.Print("Enter the name of the empolyee you want to delete: ");
             string deletedEmp = Console.ReadLine();
-            List<Employee> emp = employees.FindAll(x => x.Username.ToUpper().Contains(deletedEmp.ToUpper()));
+            List<Employee> emp = employees.FindAll(x => x.Name.ToUpper().Contains(deletedEmp.ToUpper()));
 
             if (emp.Count == 0)
             {
@@ -408,7 +450,7 @@ namespace FinalProject
             
                 foreach (var elem in emp)
                 {
-                    Helper.ForEdit.Print($"ID: {elem.id}  Name: {elem.Name}  Surname: {elem.Surname} Birthdate: {elem.BirthDate}");
+                    Helper.ForEdit.Print($"ID: {elem.id}    Name: {elem.Name}    Surname: {elem.Surname} ");
                 }
                 id:
                 Helper.ForEdit.Print("Enter the ID number of the employee you want to delete: ");
@@ -428,6 +470,11 @@ namespace FinalProject
                         
                         Helper.ForEdit.Print($"{elem.Name} has deleted");
                         break;
+                    }
+                    else
+                    {
+                        Helper.ForEdit.Print("Not found employee in this ID", ConsoleColor.DarkRed);
+                    return;
                     }
                 }
 
@@ -520,11 +567,17 @@ namespace FinalProject
                         Helper.ForEdit.Print("Enter the salary correctly!!!: ", ConsoleColor.DarkRed);
                         goto SALARY;
                     }
+                    if (salary < 0)
+                    {
+                        Helper.ForEdit.Print("Negative numbers will not be included");
+                        goto SALARY;
+                    }
                     if (salary < 400)
                     {
                         Helper.ForEdit.Print("The minimum salary should be 400 manat.", ConsoleColor.DarkRed);
                         goto SALARY;
                     }
+
                     item.Salary = salary;
                     
                     Helper.ForEdit.Print("Set a username: ");
@@ -618,7 +671,12 @@ namespace FinalProject
                     Helper.ForEdit.Print("Invalid Input", ConsoleColor.DarkRed);
                     goto PIECES;
                 }
-                List<Drug> drug = drugs.FindAll(x => x.Name.ToUpper().Contains(drugName.ToUpper()) && x.DrugType.ToString().ToUpper().Contains(drugType.ToUpper()));
+                if (pieces < 0)
+                {
+                    Helper.ForEdit.Print("Negative numbers will not be included");
+                    goto PIECES;
+                }
+            List<Drug> drug = drugs.FindAll(x => x.Name.ToUpper().Contains(drugName.ToUpper()) && x.DrugType.ToString().ToUpper().Contains(drugType.ToUpper()));
                 if(drug.Count == 0)
                 {
                     Helper.ForEdit.Print("No medicine was found under this name: ", ConsoleColor.DarkRed);
@@ -643,7 +701,8 @@ namespace FinalProject
                                 elem.Count = elem.Count - elem.Count;
                                 Budget = Budget + (elem.SalePrice * elem.Count);
                                 Helper.ForEdit.Print(($"{elem.Name} named drug has stolen"));
-                                return;
+                                Helper.ForEdit.Print($"Budget {Budget}", ConsoleColor.DarkBlue);
+                            return;
                             }
                             else
                             {
@@ -660,6 +719,7 @@ namespace FinalProject
                             elem.Count = elem.Count - pieces;
                             Budget = Budget + (elem.SalePrice * pieces);
                             Helper.ForEdit.Print(($"{elem.Name} named drug has sold, {pieces} count"));
+                            Helper.ForEdit.Print($"Budget {Budget}", ConsoleColor.DarkBlue);
                         }
                     }
                 }

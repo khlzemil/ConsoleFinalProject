@@ -30,6 +30,7 @@ namespace FinalProject
                             Helper.ForEdit.Print("Press 1 to go to the admin panel: ");
                             Helper.ForEdit.Print("Press 2 to sale: ");
                             Helper.ForEdit.Print("Press 3 to update your personal information: ");
+                            Helper.ForEdit.Print("Press 4 to exit: ");
                                 string option = Console.ReadLine();
                                 while (true)
                                 {
@@ -42,7 +43,7 @@ namespace FinalProject
                                         Helper.ForEdit.Print("Press 4 to edit drug: ");
                                         Helper.ForEdit.Print("Press 5 to delete employee: ");
                                         Helper.ForEdit.Print("Press 6 to edit employee: ");
-                                        Helper.ForEdit.Print("Press 7 to exit: ");
+                                        Helper.ForEdit.Print("Press 7 to return main menu: ");
 
                                             string caseOneOptions = Console.ReadLine();
 
@@ -51,7 +52,7 @@ namespace FinalProject
                                                 case "1":
 
                                                     pharmacy.AddEmpolyee();
-                                                    goto Main;
+                                                    
                                                     break;
 
                                                 case "2":
@@ -79,7 +80,8 @@ namespace FinalProject
 
                                         case "2":
                                             pharmacy.Sale();
-                                            return;
+                                        goto MAINMENU;
+                                            
 
                                         case "3":
 
@@ -172,7 +174,7 @@ namespace FinalProject
 
 
                                         case "4":
-                                            goto MAINMENU;
+                                            goto Main;
                                         default:
                                             break;
 

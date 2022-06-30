@@ -7,6 +7,7 @@ namespace FinalProject
     {
         static void Main(string[] args)
         {
+
             Pharmacy pharmacy = new Pharmacy("Zeferan Pharmacy");
             string s = "Welcome to Zeferan Pharmacy control panel";
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
@@ -19,6 +20,7 @@ namespace FinalProject
                 string userName = Console.ReadLine();
                 Helper.ForEdit.Print("Enter a password: ");
                 string passWord = Console.ReadLine();
+                Console.Clear();
                 foreach (var elem in pharmacy.employees)
                 {
                     
@@ -32,6 +34,7 @@ namespace FinalProject
                             Helper.ForEdit.Print("Press 3 to update your personal information: ");
                             Helper.ForEdit.Print("Press 4 to exit: ");
                                 string option = Console.ReadLine();
+                                Console.Clear();
                                 while (true)
                                 {
                                     switch (option)
@@ -44,8 +47,8 @@ namespace FinalProject
                                         Helper.ForEdit.Print("Press 5 to delete employee: ");
                                         Helper.ForEdit.Print("Press 6 to edit employee: ");
                                         Helper.ForEdit.Print("Press 7 to return main menu: ");
-
-                                            string caseOneOptions = Console.ReadLine();
+                                        string caseOneOptions = Console.ReadLine();
+                                        Console.Clear();
 
                                             switch (caseOneOptions)
                                             {
@@ -67,7 +70,7 @@ namespace FinalProject
                                                     break;
 
                                                 case "5":
-                                                    pharmacy.DeleteEmpolyee();
+                                                    pharmacy.DeleteEmployee();
                                                     break;
                                                 case "6":
                                                     pharmacy.EditEmployee();
@@ -188,6 +191,7 @@ namespace FinalProject
                             Helper.ForEdit.Print("Press 2 to update your personal information: ");
                             Helper.ForEdit.Print("Press 3 to exit");
                                 string staffPanel = Console.ReadLine();
+                            Console.Clear();
                                 switch (staffPanel)
                                 {
                                     case "1":
@@ -274,10 +278,11 @@ namespace FinalProject
                                         Helper.ForEdit.Print("The minimum length of the password must be 5",ConsoleColor.DarkRed);
                                             goto SETPASS;
                                         }
-                                    Add:
-                                        elem.Password = password;
-
+                                Add:
+                                    elem.Password = password;
+                                    Console.Clear();
                                     Helper.ForEdit.Print($"You have updated your personal information.");
+                                    
 
                                         break;
                                     #endregion

@@ -10,11 +10,11 @@ namespace FinalProject.Helper
     internal class ForEdit
     {
 
-        public static void Print(object obj, ConsoleColor color = ConsoleColor.Green)
+        public static void Print(string st, ConsoleColor color = ConsoleColor.Green)
         {
 
-            string text = obj as string;
-            foreach (var elem in text)
+            
+            foreach (var elem in st)
             {
                 Console.ForegroundColor = color;
                 Console.Write(elem);

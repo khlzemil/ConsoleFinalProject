@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+
 namespace FinalProject
 {
     internal class Pharmacy
@@ -20,7 +21,7 @@ namespace FinalProject
         public Pharmacy(string name)
         {
             Name = name;
-            Employee defaultEmp = new Employee {Name = "unknow",  Username = "admin", Password = "admin123", RoleType = RoleType.ADMIN };
+            Employee defaultEmp = new Employee {Name = "unknown",  Username = "admin", Password = "admin123", RoleType = RoleType.ADMIN };
             employees.Add(defaultEmp);
 
         }
@@ -32,13 +33,16 @@ namespace FinalProject
             Employee employee = new Employee();
             Helper.ForEdit.Print("Input new employee's name: ");
             string empName = Console.ReadLine();
+            
             employee.Name = empName;
             Helper.ForEdit.Print("Input new employee's surname: ");
             string empSurname = Console.ReadLine();
+            
             employee.Surname = empSurname;
             Helper.ForEdit.Print("Input new employee's birthdate: dd.mm.yyyy ");
             BRITHDAY:
             string birthdayStr = Console.ReadLine();
+            
             bool IsDate = DateTime.TryParseExact(birthdayStr, "dd MM yyyy", null, 0, out DateTime BirthDate);
             if (!IsDate)
             {
@@ -49,6 +53,7 @@ namespace FinalProject
             Helper.ForEdit.Print("Enter the salary of the new employee: ");
             SALARY:
             string salaryStr = Console.ReadLine();
+            
             bool isInt = int.TryParse(salaryStr, out int salary);
             if (!isInt)
             {
@@ -71,7 +76,8 @@ namespace FinalProject
             Helper.ForEdit.Print("Set a username: ");
             USERNAME:
             string username = Console.ReadLine();
-            foreach(var elem in employees)
+            
+            foreach (var elem in employees)
             {
                 if(elem.Username == username)
                 {
@@ -142,10 +148,16 @@ namespace FinalProject
             {
                 employee.RoleType = RoleType.STAFF;
             }
-            
+            else
+            {
+                Helper.ForEdit.Print("Invalid Input", ConsoleColor.DarkRed);
+                goto EMPLOYEE;
+            }
+            Console.Clear();
             employees.Add(employee);
             Helper.ForEdit.Print($"You have added an employee {empName} to the portal.");
             
+
         }
 
         public void AddDrug()
@@ -237,16 +249,18 @@ namespace FinalProject
                 Helper.ForEdit.Print("Negative numbers will not be included", ConsoleColor.DarkRed);
                 goto SALE;
             }
+            Console.Clear();
             drug.SalePrice = salePrice;
             drugs.Add(drug);
             Helper.ForEdit.Print($"You have added drug {drugName} to the portal.");
+            
         }
 
         public void DeleteDrug()
         {
             if (drugs.Count == 0)
             {
-                Helper.ForEdit.Print(("There is currently no drug in stock", ConsoleColor.DarkRed));
+                Helper.ForEdit.Print("There is currently no drug in stock", ConsoleColor.DarkRed);
                 return;
             }
             Helper.ForEdit.Print("Enter the name of the drug you want to delete: ");
@@ -280,7 +294,9 @@ namespace FinalProject
                     {
                         drugs.Remove(elem);
                         Budget = Budget -  (elem.PurchasePrice * elem.Count);
+                        Console.Clear();
                         Helper.ForEdit.Print($"{elem.Name} has deleted");
+                        
                         break;
                     }
                 }
@@ -293,7 +309,8 @@ namespace FinalProject
         {
             if (drugs.Count == 0)
             {
-                Helper.ForEdit.Print(("There is currently no drug in stock", ConsoleColor.DarkRed));
+                Helper.ForEdit.Print("There is currently no drug in stock", ConsoleColor.DarkRed);
+                
                 return;
             }
 
@@ -420,7 +437,9 @@ namespace FinalProject
                     item.SalePrice = salePrice;
                     drugs.Add(item);
                     Budget = Budget + (currentPurchase * count) - (currentPurchase * currentCount);
+                    Console.Clear();
                     Helper.ForEdit.Print($"You have edited drug {drugName}.");
+                    
                 }
 
                 
@@ -431,15 +450,21 @@ namespace FinalProject
 
             }
 
-        public void DeleteEmpolyee()
+        public void DeleteEmployee()
         {
-            if (employees.Count == 0)
+            if (employees.Count == 1)
             {
-                Helper.ForEdit.Print(("There is currently no empolyee in pharmacy", ConsoleColor.DarkRed));
+                Helper.ForEdit.Print("There is currently no empolyee in pharmacy", ConsoleColor.DarkRed);
+                
                 return;
             }
             Helper.ForEdit.Print("Enter the name of the empolyee you want to delete: ");
             string deletedEmp = Console.ReadLine();
+            if(deletedEmp.ToLower() == "admin".ToLower())
+            {
+               Helper.ForEdit.Print("The main admin cannot be deleted", ConsoleColor.DarkRed);
+                return;
+            }
             List<Employee> emp = employees.FindAll(x => x.Name.ToUpper().Contains(deletedEmp.ToUpper()));
 
             if (emp.Count == 0)
@@ -467,13 +492,16 @@ namespace FinalProject
                     if (elem.id == empDel)
                     {
                         employees.Remove(elem);
-                        
+                        Console.Clear();
                         Helper.ForEdit.Print($"{elem.Name} has deleted");
-                        break;
+                         
+                    break;
                     }
                     else
                     {
+                        Console.Clear();
                         Helper.ForEdit.Print("Not found employee in this ID", ConsoleColor.DarkRed);
+                        
                     return;
                     }
                 }
@@ -484,7 +512,9 @@ namespace FinalProject
         {
             if (employees.Count == 0)
             {
-                Helper.ForEdit.Print(("There is currently no employee in pharmacy", ConsoleColor.DarkRed));
+                Console.Clear();
+                Helper.ForEdit.Print("There is currently no employee in pharmacy", ConsoleColor.DarkRed);
+                
                 return;
             }
 
@@ -494,7 +524,9 @@ namespace FinalProject
 
             if (emp.Count == 0)
             {
+                Console.Clear();
                 Helper.ForEdit.Print("No employee was found under this name: ", ConsoleColor.DarkRed);
+                
                 return;
             }
             else
@@ -641,10 +673,11 @@ namespace FinalProject
                         goto SETPASS;
                     }
                 Add:
+                    Console.Clear();
                     item.Password = password;
-                    
 
                     Helper.ForEdit.Print($"You have edited an employee {empName} to the portal.");
+                   
                 }
 
 
@@ -656,7 +689,8 @@ namespace FinalProject
                 if (drugs.Count == 0)
                 {
                     Helper.ForEdit.Print("There is currently no drug on sale", ConsoleColor.DarkRed);
-                    return;
+                    
+                return;
                 }
                 Helper.ForEdit.Print("Enter name of drug");
                 string drugName = Console.ReadLine();
@@ -669,6 +703,7 @@ namespace FinalProject
                 if (!isInt)
                 {
                     Helper.ForEdit.Print("Invalid Input", ConsoleColor.DarkRed);
+                   
                     goto PIECES;
                 }
                 if (pieces < 0)
@@ -701,6 +736,7 @@ namespace FinalProject
                                 elem.Count = elem.Count - elem.Count;
                                 Budget = Budget + (elem.SalePrice * elem.Count);
                                 Helper.ForEdit.Print(($"{elem.Name} named drug has stolen"));
+                                Console.Clear();
                                 Helper.ForEdit.Print($"Budget {Budget}", ConsoleColor.DarkBlue);
                             return;
                             }
@@ -718,8 +754,10 @@ namespace FinalProject
                         {
                             elem.Count = elem.Count - pieces;
                             Budget = Budget + (elem.SalePrice * pieces);
-                            Helper.ForEdit.Print(($"{elem.Name} named drug has sold, {pieces} count"));
+                        Console.Clear();
+                        Helper.ForEdit.Print(($"{elem.Name} named drug has sold, {pieces} count"));
                             Helper.ForEdit.Print($"Budget {Budget}", ConsoleColor.DarkBlue);
+                            
                         }
                     }
                 }
